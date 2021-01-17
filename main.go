@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/JustinKuli/project-euler/internal/p002"
+	"github.com/JustinKuli/project-euler/internal/p003"
 )
 
 func main() {
-	p002.Solve()
+	p003.Solve()
 }
