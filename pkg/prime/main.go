@@ -52,7 +52,7 @@ func sliceTo(input []uint64, max uint64) []uint64 {
 			return input[:i]
 		}
 	}
-	return nil
+	return input
 }
 
 // Returns whether the given number is co-prime to all values in the given list.
