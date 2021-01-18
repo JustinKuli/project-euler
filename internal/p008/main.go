@@ -2,8 +2,9 @@ package p008
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
+
+	"github.com/JustinKuli/project-euler/pkg/num"
 )
 
 const rawBigNum string = `
@@ -29,13 +30,13 @@ const rawBigNum string = `
 71636269561882670428252483600823257530420752963450
 `
 
-//Find the thirteen adjacent digits in the 1000-digit number that have the
+// Find the thirteen adjacent digits in the 1000-digit number that have the
 // greatest product. What is the value of this product?
 func Solve() {
 	bigNum := strings.ReplaceAll(rawBigNum, "\n", "")
 	biggestProd := 0
 	for i := 0; i < len(bigNum)-13; i++ {
-		digProd, err := digitalProduct(string(bigNum[i : i+13]))
+		digProd, err := num.DigitalProduct(string(bigNum[i : i+13]))
 		if err != nil {
 			panic(err)
 		}
@@ -45,20 +46,4 @@ func Solve() {
 	}
 
 	fmt.Println(biggestProd)
-}
-
-func digitalProduct(in string) (int, error) {
-	if strings.Contains(in, "0") {
-		return 0, nil
-	}
-
-	prod := 1
-	for i := 0; i < len(in); i++ {
-		digit, err := strconv.Atoi(string(in[i : i+1]))
-		if err != nil {
-			return 0, err
-		}
-		prod *= digit
-	}
-	return prod, nil
 }
