@@ -9,7 +9,7 @@ package ${problem_name}
 
 // Solve this problem:
 //
-func Solve() String {
+func Solve() string {
 	return "Hello world"
 }
 EOF
