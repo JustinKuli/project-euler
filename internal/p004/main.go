@@ -1,14 +1,14 @@
 package p004
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/JustinKuli/project-euler/pkg/num"
 )
 
 // Solve this problem:
 // Find the largest palindrome made from the product of two 3-digit numbers.
-func Solve() {
+func Solve() string {
 	largest := 0
 	for i := 100; i <= 999; i++ {
 		for j := 100; j <= i; j++ {
@@ -21,5 +21,5 @@ func Solve() {
 			}
 		}
 	}
-	fmt.Println(largest)
+	return strconv.Itoa(largest)
 }

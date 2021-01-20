@@ -1,13 +1,11 @@
 package p011
 
-import (
-	"fmt"
-)
+import "strconv"
 
 // Solve this problem:
 // What is the greatest product of four adjacent numbers in the same direction
 // (up, down, left, right, or diagonally) in the 20×20 grid?
-func Solve() {
+func Solve() string {
 	biggestProd := 0
 
 	// Do horizontal first
@@ -48,7 +46,7 @@ func Solve() {
 		}
 	}
 
-	fmt.Println(biggestProd)
+	return strconv.Itoa(biggestProd)
 }
 
 var grid = [][]int{

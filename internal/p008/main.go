@@ -1,7 +1,7 @@
 package p008
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/JustinKuli/project-euler/pkg/num"
@@ -10,7 +10,7 @@ import (
 // Solve this problem:
 // Find the thirteen adjacent digits in the 1000-digit number that have the
 // greatest product. What is the value of this product?
-func Solve() {
+func Solve() string {
 	bigNum := strings.ReplaceAll(rawBigNum, "\n", "")
 	biggestProd := 0
 	for i := 0; i < len(bigNum)-13; i++ {
@@ -23,7 +23,7 @@ func Solve() {
 		}
 	}
 
-	fmt.Println(biggestProd)
+	return strconv.Itoa(biggestProd)
 }
 
 const rawBigNum string = `

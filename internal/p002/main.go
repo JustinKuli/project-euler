@@ -1,13 +1,11 @@
 package p002
 
-import (
-	"fmt"
-)
+import "strconv"
 
 // Solve this problem:
 // By considering the terms in the Fibonacci sequence whose values do not exceed
 // four million, find the sum of the even-valued terms.
-func Solve() {
+func Solve() string {
 	sum := 2
 	fib1, fib2 := 1, 2
 	for {
@@ -27,5 +25,5 @@ func Solve() {
 			sum += fib2
 		}
 	}
-	fmt.Println(sum)
+	return strconv.Itoa(sum)
 }

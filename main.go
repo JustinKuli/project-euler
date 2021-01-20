@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/JustinKuli/project-euler/internal/p011"
+	"fmt"
+
+	"github.com/JustinKuli/project-euler/internal/p002"
 )
 
 func main() {
-	p011.Solve()
+	fmt.Println(p002.Solve())
 }
