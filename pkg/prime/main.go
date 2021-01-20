@@ -29,7 +29,7 @@ func FactorsOf(n uint64) ([]uint64, error) {
 	}
 
 	// Handle case where the input is prime
-	if len(factors) == 0 {
+	if n != 1 {
 		factors = append(factors, n)
 	}
 	return factors, nil
