@@ -4,7 +4,6 @@ import "fmt"
 
 // FactorsOf returns the prime factors of the given number
 func FactorsOf(n uint64) ([]uint64, error) {
-	fmt.Println("input:", n)
 	sqrt, err := intsqrt(n, 10_000)
 	if err != nil {
 		return nil, fmt.Errorf("Took too long to calculate sqrt(%v)", n)
@@ -13,11 +12,9 @@ func FactorsOf(n uint64) ([]uint64, error) {
 	// intsqrt is always less than or equal to the actual sqrt...
 	// But we need to be greater than or equal to the actual sqrt
 	sqrt++
-	fmt.Println("Adjusted sqrt:", sqrt)
 
 	factors := make([]uint64, 0)
 	primes := List(sqrt)
-	fmt.Println("using primes:", primes)
 	for _, p := range primes {
 		for n%p == 0 {
 			factors = append(factors, p)
