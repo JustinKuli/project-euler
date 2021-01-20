@@ -7,6 +7,25 @@ import (
 	"github.com/JustinKuli/project-euler/pkg/num"
 )
 
+// Solve this problem:
+// Find the thirteen adjacent digits in the 1000-digit number that have the
+// greatest product. What is the value of this product?
+func Solve() {
+	bigNum := strings.ReplaceAll(rawBigNum, "\n", "")
+	biggestProd := 0
+	for i := 0; i < len(bigNum)-13; i++ {
+		digProd, err := num.DigitalProduct(string(bigNum[i : i+13]))
+		if err != nil {
+			panic(err)
+		}
+		if digProd > biggestProd {
+			biggestProd = digProd
+		}
+	}
+
+	fmt.Println(biggestProd)
+}
+
 const rawBigNum string = `
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
@@ -29,21 +48,3 @@ const rawBigNum string = `
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450
 `
-
-// Find the thirteen adjacent digits in the 1000-digit number that have the
-// greatest product. What is the value of this product?
-func Solve() {
-	bigNum := strings.ReplaceAll(rawBigNum, "\n", "")
-	biggestProd := 0
-	for i := 0; i < len(bigNum)-13; i++ {
-		digProd, err := num.DigitalProduct(string(bigNum[i : i+13]))
-		if err != nil {
-			panic(err)
-		}
-		if digProd > biggestProd {
-			biggestProd = digProd
-		}
-	}
-
-	fmt.Println(biggestProd)
-}

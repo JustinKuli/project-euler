@@ -6,6 +6,8 @@ import (
 	"github.com/JustinKuli/project-euler/pkg/prime"
 )
 
+// Solve this problem:
+// What is the 10 001st prime number?
 func Solve() {
 	size := uint64(1_000_000)
 	primes := prime.List(size)

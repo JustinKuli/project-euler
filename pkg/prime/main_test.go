@@ -6,6 +6,32 @@ import (
 	"testing"
 )
 
+func TestFactorsOf(t *testing.T) {
+	tests := []struct {
+		in  uint64
+		out []uint64
+	}{
+		{6, []uint64{2, 3}},
+		{7, []uint64{7}},
+		{10, []uint64{2, 5}},
+		{360, []uint64{2, 3, 5}},
+		{366, []uint64{2, 3, 61}},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("Prime Factors of %v", tt.in)
+		t.Run(testname, func(t *testing.T) {
+			ans, err := FactorsOf(tt.in)
+			if err != nil {
+				t.Errorf("Unexpected error calculating factors of %v: %v", tt.in, err)
+			}
+			if !reflect.DeepEqual(ans, tt.out) {
+				t.Errorf("Got %v, want %v", ans, tt.out)
+			}
+		})
+	}
+}
+
 func TestSliceTo(t *testing.T) {
 	tests := []struct {
 		in  []uint64

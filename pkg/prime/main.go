@@ -4,13 +4,20 @@ import "fmt"
 
 // FactorsOf returns the prime factors of the given number
 func FactorsOf(n uint64) ([]uint64, error) {
+	fmt.Println("input:", n)
 	sqrt, err := intsqrt(n, 10_000)
 	if err != nil {
 		return nil, fmt.Errorf("Took too long to calculate sqrt(%v)", n)
 	}
 
+	// intsqrt is always less than or equal to the actual sqrt...
+	// But we need to be greater than or equal to the actual sqrt
+	sqrt++
+	fmt.Println("Adjusted sqrt:", sqrt)
+
 	factors := make([]uint64, 0)
 	primes := List(sqrt)
+	fmt.Println("using primes:", primes)
 	for _, p := range primes {
 		for n%p == 0 {
 			factors = append(factors, p)
@@ -20,12 +27,17 @@ func FactorsOf(n uint64) ([]uint64, error) {
 			break
 		}
 	}
+
+	// Handle case where the input is prime
+	if len(factors) == 0 {
+		factors = append(factors, n)
+	}
 	return factors, nil
 }
 
 // TODO: update List to use a sieve for efficiency
 
-// List returns the prime numbers less than the given `max`
+// List returns the prime numbers less than or equal to the given `max`
 func List(max uint64) []uint64 {
 	// Pre-populate the list up to my favorite prime.
 	primes := []uint64{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47}
@@ -34,7 +46,7 @@ func List(max uint64) []uint64 {
 	}
 
 	i := primes[len(primes)-1] + 2
-	for i < max {
+	for i <= max {
 		if coprime(primes, i) {
 			primes = append(primes, i)
 		}
@@ -44,11 +56,11 @@ func List(max uint64) []uint64 {
 	return primes
 }
 
-// Returns the sub-slice of values in `input` strictly less than the given max.
+// Returns the sub-slice of values in `input` up to and incuding the given max.
 // Requires the input slice to be sorted.
 func sliceTo(input []uint64, max uint64) []uint64 {
 	for i, val := range input {
-		if val >= max {
+		if val > max {
 			return input[:i]
 		}
 	}

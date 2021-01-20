@@ -6,6 +6,7 @@ import (
 	"github.com/JustinKuli/project-euler/pkg/num"
 )
 
+// Solve this problem:
 // Find the largest palindrome made from the product of two 3-digit numbers.
 func Solve() {
 	largest := 0
