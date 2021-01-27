@@ -17,6 +17,7 @@ func TestFactorsOf(t *testing.T) {
 		{10, []uint64{2, 5}},
 		{360, []uint64{2, 2, 2, 3, 3, 5}},
 		{366, []uint64{2, 3, 61}},
+		{982_451_653, []uint64{982_451_653}},
 	}
 
 	for _, tt := range tests {

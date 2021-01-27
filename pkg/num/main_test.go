@@ -88,6 +88,7 @@ func TestDivisors(t *testing.T) {
 		{15, []int{1, 3, 5, 15}},
 		{21, []int{1, 3, 7, 21}},
 		{28, []int{1, 2, 4, 7, 14, 28}},
+		{982_451_653, []int{1, 982_451_653}},
 	}
 
 	for _, tt := range tests {

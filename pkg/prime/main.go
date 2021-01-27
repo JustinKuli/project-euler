@@ -32,12 +32,11 @@ func FactorsOf(n uint64) ([]uint64, error) {
 	return factors, nil
 }
 
-// TODO: update List to use a sieve for efficiency
+// Pre-populate the list up to my favorite prime.
+var primes = []uint64{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47}
 
 // List returns the prime numbers less than or equal to the given `max`
 func List(max uint64) []uint64 {
-	// Pre-populate the list up to my favorite prime.
-	primes := []uint64{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47}
 	if max <= primes[len(primes)-1] {
 		return sliceTo(primes, max)
 	}
