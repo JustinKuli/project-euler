@@ -3,6 +3,8 @@ package num
 import (
 	"strconv"
 	"strings"
+
+	"github.com/JustinKuli/project-euler/pkg/prime"
 )
 
 // DigitalProduct returns the product of all the digits of the input
@@ -46,4 +48,24 @@ func IsPalindrome(num int) bool {
 		}
 	}
 	return true
+}
+
+// CountDivisors counts the number of divisors of the input.
+func CountDivisors(num int) int {
+	pFactors, err := prime.FactorsOf(uint64(num))
+	if err != nil {
+		panic(err)
+	}
+
+	divisors := make(map[uint64]bool)
+	for i := 0; i <= (1 << len(pFactors)); i++ {
+		divisor := 1
+		for j, factor := range pFactors {
+			if i&(1<<j) != 0 {
+				divisor *= int(factor)
+			}
+		}
+		divisors[uint64(divisor)] = true
+	}
+	return len(divisors)
 }
