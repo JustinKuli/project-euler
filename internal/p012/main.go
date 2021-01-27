@@ -12,7 +12,7 @@ func Solve() string {
 	triNum := 0
 	for i := 1; i < 1_000_000; i++ {
 		triNum += i
-		if num.CountDivisors(triNum) > 500 {
+		if len(num.Divisors(triNum)) > 500 {
 			return strconv.Itoa(triNum)
 		}
 	}

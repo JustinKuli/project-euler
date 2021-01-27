@@ -1,6 +1,7 @@
 package num
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 
@@ -50,14 +51,23 @@ func IsPalindrome(num int) bool {
 	return true
 }
 
-// CountDivisors counts the number of divisors of the input.
-func CountDivisors(num int) int {
+// Divisors returns the divisors of the input.
+func Divisors(num int) []int {
 	pFactors, err := prime.FactorsOf(uint64(num))
 	if err != nil {
 		panic(err)
 	}
 
-	divisors := make(map[uint64]bool)
+	// Every divisor is some product of the prime factors.
+	// We need to put them in a map, since there could be duplicates.
+	// For example, take 60 : prime factors =  2  2  3  5
+	//            divisor 6 is the product of  2     3
+	//                but it could also be        2  3
+	//
+	// We can enumerate the divisors (with duplicates) with a binary number.
+	// For instance, 6 is either 0b1010 or 0b0110 in the example above.
+	divMap := make(map[uint64]bool)
+	// reminder: (1 << x) == (2**x)
 	for i := 0; i <= (1 << len(pFactors)); i++ {
 		divisor := 1
 		for j, factor := range pFactors {
@@ -65,7 +75,14 @@ func CountDivisors(num int) int {
 				divisor *= int(factor)
 			}
 		}
-		divisors[uint64(divisor)] = true
+		divMap[uint64(divisor)] = true
 	}
-	return len(divisors)
+
+	divisors := make([]int, 0, len(divMap))
+	for div := range divMap {
+		divisors = append(divisors, int(div))
+	}
+
+	sort.Ints(divisors)
+	return divisors
 }

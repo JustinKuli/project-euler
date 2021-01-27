@@ -2,6 +2,7 @@ package num
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -75,25 +76,25 @@ func TestIsPalindrome(t *testing.T) {
 	}
 }
 
-func TestCountDivisors(t *testing.T) {
+func TestDivisors(t *testing.T) {
 	var tests = []struct {
 		in  int
-		out int
+		out []int
 	}{
-		{1, 1},
-		{3, 2},
-		{6, 4},
-		{10, 4},
-		{15, 4},
-		{21, 4},
-		{28, 6},
+		{1, []int{1}},
+		{3, []int{1, 3}},
+		{6, []int{1, 2, 3, 6}},
+		{10, []int{1, 2, 5, 10}},
+		{15, []int{1, 3, 5, 15}},
+		{21, []int{1, 3, 7, 21}},
+		{28, []int{1, 2, 4, 7, 14, 28}},
 	}
 
 	for _, tt := range tests {
-		testname := fmt.Sprintf("number of divisors of %v", tt.in)
+		testname := fmt.Sprintf("divisors of %v", tt.in)
 		t.Run(testname, func(t *testing.T) {
-			ans := CountDivisors(tt.in)
-			if ans != tt.out {
+			ans := Divisors(tt.in)
+			if !reflect.DeepEqual(ans, tt.out) {
 				t.Errorf("Got %v, want %v", ans, tt.out)
 			}
 		})
