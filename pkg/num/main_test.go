@@ -30,6 +30,29 @@ func TestDigitalProduct(t *testing.T) {
 	}
 }
 
+func TestDigitalSum(t *testing.T) {
+	var tests = []struct {
+		in  string
+		out int
+	}{
+		{"123", 6},
+		{"22222243", 19},
+		{"9989", 35},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("Digital Sum of %v", tt.in)
+		t.Run(testname, func(t *testing.T) {
+			ans, err := DigitalSum(tt.in)
+			if err != nil {
+				t.Errorf("Got unexpected error %v", err)
+			}
+			if ans != tt.out {
+				t.Errorf("Got %v, want %v", ans, tt.out)
+			}
+		})
+	}
+}
 func TestSmallestMultiple(t *testing.T) {
 	var tests = []struct {
 		nums []int

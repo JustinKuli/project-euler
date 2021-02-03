@@ -25,6 +25,19 @@ func DigitalProduct(in string) (int, error) {
 	return prod, nil
 }
 
+// DigitalSum returns the sum of all the digits of the input
+func DigitalSum(in string) (int, error) {
+	sum := 0
+	for i := 0; i < len(in); i++ {
+		digit, err := strconv.Atoi(string(in[i : i+1]))
+		if err != nil {
+			return 0, err
+		}
+		sum += digit
+	}
+	return sum, nil
+}
+
 // SmallestMultiple returns the smallest multiple of all the numbers in the list.
 // Requires the list to be in order from largest to smallest.
 func SmallestMultiple(nums []int) int {
