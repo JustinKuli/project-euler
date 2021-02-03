@@ -4,6 +4,7 @@ import (
 	"strconv"
 )
 
+// Int is a big integer
 type Int struct {
 	n   []int32
 	neg bool
@@ -69,20 +70,20 @@ func (i Int) String() string {
 }
 
 // Add adds two bignum.Ints
-func (i1 Int) Add(i2 Int) Int {
+func (i Int) Add(i2 Int) Int {
 	// Get the numbers to have the same number of "digits"
 	//  by padding with zeroes (on the big side)
-	for len(i1.n) < len(i2.n) {
-		i1.n = append(i1.n, int32(0))
+	for len(i.n) < len(i2.n) {
+		i.n = append(i.n, int32(0))
 	}
-	for len(i2.n) < len(i1.n) {
+	for len(i2.n) < len(i.n) {
 		i2.n = append(i2.n, int32(0))
 	}
 
-	sum := make([]int32, len(i1.n))
+	sum := make([]int32, len(i.n))
 	kerry := int32(0)
-	for id := range i1.n {
-		sum[id] = i1.n[id] + i2.n[id] + kerry
+	for id := range i.n {
+		sum[id] = i.n[id] + i2.n[id] + kerry
 		if sum[id] > biggestNum {
 			sum[id] -= (biggestNum + 1)
 			kerry = 1
