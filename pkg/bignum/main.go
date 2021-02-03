@@ -57,15 +57,22 @@ func MakeInt(s string) Int {
 
 func (i Int) String() string {
 	str := ""
-	if i.neg {
-		str = "-"
-	}
 
 	for j := len(i.n) - 1; j >= 0; j-- {
-		str += strconv.Itoa(int(i.n[j]))
+		digit := strconv.Itoa(int(i.n[j]))
+		for len(digit) < bignumDigitCount {
+			digit = "0" + digit
+		}
+		str += digit
 	}
 
-	// TODO: Pull out 0's?
+	for str[0] == '0' && len(str) > 1 {
+		str = str[1:]
+	}
+
+	if i.neg {
+		str = "-" + str
+	}
 	return str
 }
 
@@ -97,4 +104,62 @@ func (i Int) Add(i2 Int) Int {
 	}
 
 	return Int{sum, false} // TODO: Handle negatives
+}
+
+// Multiply multiplies two bignum.Ints
+func (i Int) Multiply(i2 Int) Int {
+	// Ensure that i has fewer digits than i2
+	if len(i.n) > len(i2.n) {
+		return i2.Multiply(i)
+	}
+
+	acc := MakeInt("0")
+	for ind := range i.n {
+		// Do single "digit" multiplication
+		num := i2.copyForMultiply(ind)
+		for k, v := range num {
+			num[k] = v * int64(i.n[ind])
+		}
+
+		// Carry overflows inside single "digit" product
+		kerry := int64(0)
+		kerrycount := 0
+		for idx := range num {
+			kerrycount++
+			num[idx] += kerry
+			if num[idx] > int64(biggestNum) {
+				kerry = num[idx] / (int64(biggestNum) + 1)
+				num[idx] = num[idx] % (int64(biggestNum) + 1)
+			} else {
+				kerry = int64(0)
+			}
+		}
+
+		if kerry != 0 {
+			foo := make([]int32, kerrycount)
+			foo = append(foo, int32(kerry))
+			acc = acc.Add(Int{foo, false})
+		}
+
+		// Accumulate
+		acc = acc.Add(convertMultiplyBack(num))
+	}
+
+	return acc
+}
+
+func (i Int) copyForMultiply(pad int) []int64 {
+	ans := make([]int64, len(i.n)+pad)
+	for k, v := range i.n {
+		ans[k+pad] = int64(v)
+	}
+	return ans
+}
+
+func convertMultiplyBack(in []int64) Int {
+	ans := make([]int32, len(in))
+	for k, v := range in {
+		ans[k] = int32(v)
+	}
+	return Int{ans, false}
 }

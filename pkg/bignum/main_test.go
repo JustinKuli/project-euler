@@ -12,6 +12,7 @@ func TestIntAdd(t *testing.T) {
 		sum  Int
 	}{
 		{MakeInt("1000"), MakeInt("1000"), MakeInt("2000")},
+		{MakeInt("0"), MakeInt("100000000000000"), MakeInt("100000000000000")},
 		{
 			MakeInt("111111111111111111111"),
 			MakeInt("111111111111111111111"),
@@ -45,7 +46,9 @@ func TestIntString(t *testing.T) {
 		num Int
 		str string
 	}{
+		{MakeInt("0"), "0"},
 		{MakeInt("1000"), "1000"},
+		{MakeInt("1000000000000"), "1000000000000"},
 		{MakeInt("12345678901"), "12345678901"},
 		{MakeInt("123456789012345678901234567890"), "123456789012345678901234567890"},
 		{MakeInt("-123456789012345678901234567890"), "-123456789012345678901234567890"},
@@ -55,6 +58,29 @@ func TestIntString(t *testing.T) {
 		testname := fmt.Sprintf("%v", tt.num)
 		t.Run(testname, func(t *testing.T) {
 			ans := tt.num.String()
+			if ans != tt.str {
+				t.Errorf("Got %v, want %v", ans, tt.str)
+			}
+		})
+	}
+}
+
+func TestIntMultiply(t *testing.T) {
+	var tests = []struct {
+		i, j Int
+		str  string
+	}{
+		{MakeInt("100"), MakeInt("100"), "10000"},
+		{MakeInt("5000000"), MakeInt("5000000"), "25000000000000"},
+		{MakeInt("2000000000"), MakeInt("2"), "4000000000"},
+		{MakeInt("2"), MakeInt("2000000000"), "4000000000"},
+		{MakeInt("3000000000"), MakeInt("3000000000"), "9000000000000000000"},
+	}
+
+	for _, tt := range tests {
+		testname := fmt.Sprintf("%v * %v", tt.i, tt.j)
+		t.Run(testname, func(t *testing.T) {
+			ans := tt.i.Multiply(tt.j).String()
 			if ans != tt.str {
 				t.Errorf("Got %v, want %v", ans, tt.str)
 			}
