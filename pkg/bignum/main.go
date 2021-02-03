@@ -5,13 +5,19 @@ import (
 )
 
 type Int struct {
-	n   []int64
+	n   []int32
 	neg bool
 }
 
-const bignumDigitCount = 15
-const biggestNum = int64(999_999_999_999_999)
+const bignumDigitCount = 9
+const biggestNum = int32(999_999_999)
 
+// MaxUint64 = 1<<64 - 1 :: 18_446_744_073_709_551_615
+// MaxInt64  = 1<<63 - 1 ::  9_223_372_036_854_775_807
+// MaxUint32 = 1<<32 - 1 ::              4_294_967_295
+// MaxInt32  = 1<<31 - 1 ::              2_147_483_647
+
+// MakeInt makes a bignum.Int out of the input string.
 func MakeInt(s string) Int {
 	// Get the first few digits in order to determine the sign of the number
 	l := len(s)
@@ -27,20 +33,20 @@ func MakeInt(s string) Int {
 		s = s[1:]
 	}
 
-	numAcc := make([]int64, 0, 0)
-	for len(s) > 18 {
+	numAcc := make([]int32, 0, 0)
+	for len(s) > bignumDigitCount {
 		digits, err := strconv.Atoi(s[len(s)-bignumDigitCount:])
 		if err != nil {
 			panic(err)
 		}
-		numAcc = append(numAcc, int64(digits))
+		numAcc = append(numAcc, int32(digits))
 		s = s[:len(s)-bignumDigitCount]
 	}
 	digits, err := strconv.Atoi(s)
 	if err != nil {
 		panic(err)
 	}
-	numAcc = append(numAcc, int64(digits))
+	numAcc = append(numAcc, int32(digits))
 
 	return Int{
 		numAcc,
@@ -62,18 +68,19 @@ func (i Int) String() string {
 	return str
 }
 
+// Add adds two bignum.Ints
 func (i1 Int) Add(i2 Int) Int {
 	// Get the numbers to have the same number of "digits"
 	//  by padding with zeroes (on the big side)
 	for len(i1.n) < len(i2.n) {
-		i1.n = append(i1.n, int64(0))
+		i1.n = append(i1.n, int32(0))
 	}
 	for len(i2.n) < len(i1.n) {
-		i2.n = append(i2.n, int64(0))
+		i2.n = append(i2.n, int32(0))
 	}
 
-	sum := make([]int64, len(i1.n))
-	kerry := int64(0)
+	sum := make([]int32, len(i1.n))
+	kerry := int32(0)
 	for id := range i1.n {
 		sum[id] = i1.n[id] + i2.n[id] + kerry
 		if sum[id] > biggestNum {
@@ -85,7 +92,7 @@ func (i1 Int) Add(i2 Int) Int {
 	}
 
 	if kerry == 1 {
-		sum = append(sum, int64(1))
+		sum = append(sum, int32(1))
 	}
 
 	return Int{sum, false} // TODO: Handle negatives
